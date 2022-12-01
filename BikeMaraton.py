@@ -162,7 +162,7 @@ def BM(tab, grupa):
     return df_all
 
 
-result1 = BM(tab_classic,'claccic')
+result1 = BM(tab_classic,'Classic')
 result2 = BM(tab_mega,'MEGA')
 
 result = pd.concat([result1,result2])
@@ -171,6 +171,7 @@ result.reset_index(inplace = True, drop = True)
 
 result_druzyny = result.groupby(['Klub'], as_index=False)['PunktyKategoria'].agg(['sum', 'mean', 'count'])#.apply(lambda x: x)
 result_druzyny.sort_values(by='count',inplace=True, ascending=False)
+
 result_druzyny.columns = [ 'suma', 'średnia', 'ilość zawodników na mecie']
 
 
@@ -182,11 +183,10 @@ def kondycja(cell):
         return ''
 
 
-#result = result.style.applymap(kondycja, subset=['Klub'])
-#result_druzyny = result_druzyny.style.applymap(kondycja, subset=['Klub'])
+result = result.style.applymap(kondycja, subset=['Klub'])
+result_druzyny = result_druzyny.style.applymap(kondycja, subset=['Klub'])
 
-print (result)
-print(result_druzyny)
+
 
 #Przygotuj Excela
 with pd.ExcelWriter(filename, engine='xlsxwriter') as writer:  
